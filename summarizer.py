@@ -22,23 +22,31 @@ de la politique française. Génère un résumé structuré en JSON avec exactem
 
 {{
   "resume_semaine": [
-    "Point synthétique 1 (une phrase claire et accessible)",
-    "Point synthétique 2",
-    "Point synthétique 3",
-    "Point synthétique 4",
-    "Point synthétique 5"
+    "Thème ou mesure : phrase factuelle décrivant ce qui a été débattu ou adopté.",
+    "..."
   ],
   "evenement_principal": {{
     "titre": "Titre court et explicite de l'événement ou débat le plus important",
     "description": "Description en 2-3 phrases accessibles expliquant de quoi il s'agit et pourquoi c'est important pour les citoyens.",
-    "contexte_historique": "Paragraphe de 5 à 8 lignes retraçant l'histoire de ce sujet en France : origines, évolutions marquantes, situation actuelle. Style pédagogique, accessible, sans jargon."
+    "contexte_historique": [
+      "Point historique : origine ou date clé, en précisant le parti, le gouvernement ou le ministre à l'origine de la loi citée.",
+      "Point historique : évolution marquante, en précisant les partis qui ont porté ou combattu la réforme.",
+      "Point historique : situation actuelle et principales lignes de clivage entre les partis."
+    ]
   }}
 }}
 
 Règles :
-- Entre 5 et 7 points dans resume_semaine, pas plus.
-- Chaque point commence par un verbe d'action ou un sujet clair.
-- Le contexte historique doit apporter une vraie valeur éducative au débutant.
+- resume_semaine : entre 5 et 7 points, pas plus.
+- Chaque point doit être factuel et autoportant : commence directement par le thème ou la mesure \
+concernée (ex. « Protection de l'enfance : … », « Retraites agricoles : … »). N'utilise JAMAIS de \
+verbe pédagogique en tête de point (pas de « Découvrir », « Comprendre », « Analyser », « Étudier », \
+« Examiner », « S'intéresser »).
+- contexte_historique : une liste de 3 à 5 puces (jamais un paragraphe). Style pédagogique et \
+accessible, sans jargon.
+- Dans contexte_historique, chaque fois qu'une loi, une réforme ou une décision est citée, mentionne \
+explicitement le ou les partis politiques, le gouvernement ou le ministre qui l'ont portée, et le cas \
+échéant ceux qui s'y sont opposés.
 - Réponds UNIQUEMENT avec le JSON, sans texte avant ni après, sans balises markdown.
 """
 
@@ -48,7 +56,7 @@ class WeeklySummary:
     resume_semaine: list[str]
     evenement_titre: str
     evenement_description: str
-    evenement_contexte: str
+    evenement_contexte: list[str]
 
 
 def generate_summary(
@@ -86,5 +94,5 @@ def generate_summary(
         resume_semaine=data.get("resume_semaine", []),
         evenement_titre=event.get("titre", ""),
         evenement_description=event.get("description", ""),
-        evenement_contexte=event.get("contexte_historique", ""),
+        evenement_contexte=event.get("contexte_historique", []),
     )
