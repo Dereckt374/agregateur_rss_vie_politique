@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir \"D:\\\\Git\\\\agregateur_rss_vie_politique\\\\.claude\")"
+    ]
+  }
+}
